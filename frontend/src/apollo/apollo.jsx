@@ -4,7 +4,7 @@ import {ApolloClient, HttpLink, InMemoryCache, split} from "@apollo/client";
 import {getMainDefinition} from "@apollo/client/utilities";
 
 const wsLink = new GraphQLWsLink(createClient({
-    url: 'ws://localhost:8000/graphql',
+    url: STRAWAPI_URL.replace("http","ws"),
 }));
 
 const httpLink = new HttpLink({

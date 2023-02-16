@@ -1,7 +1,7 @@
 FROM python:3.10-slim
 RUN mkdir api
 WORKDIR /api
-COPY main.py Pipfile Pipfile.lock ./
+COPY main.py db_utils.py schemes.py Pipfile Pipfile.lock ./
 RUN pip install pipenv
 RUN pipenv install
 EXPOSE 8000
