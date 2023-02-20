@@ -1,23 +1,109 @@
-TODO
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
 
-Chciałbym serdecznie przeprosić za moją nieobecność na ostatnich lekcjach matematyki. Wiem, że jest to nieodpowiedzialne i mogło to Tobie przysporzyć dodatkowej pracy. Pragnę Cię zapewnić, że nie było to celowe i że bardzo zależy mi na tym, aby jak najszybciej nadrobić zaległości. Bardzo dziękuję za wyjaśnienie rozwiązania zadania z kombinatoryki. Twoja pomoc była nieoceniona i bardzo mi pomogła zrozumieć ten trudny temat. Cieszę się, że mam takiego kumpla jak Ty, który jest gotowy do pomocy w trudnych sytuacjach. Jeszcze raz przepraszam za moją nieobecność i obiecuję, że będę starał się nadrobić zaległości jak najszybciej.
+::-webkit-scrollbar{
 
-1676921867.2774022
+}
 
-TODO
+* {
+    box-sizing: border-box;
+    margin: 0px;
+}
 
-Nie ma sprawy, rozumiem, że czasami życie się komplikuje i nie jest łatwo utrzymać równowagę w nauce. Doceniam Twoje przeprosiny i zrozumienie sytuacji. Bardzo się cieszę, że moja pomoc była dla Ciebie wartościowa i pomogła Ci lepiej zrozumieć temat. Zawsze jestem gotowy, aby pomóc, gdy tylko będziesz potrzebował wsparcia. Rozumiem, że chcesz nadrobić zaległości, więc jeśli potrzebujesz jakiejkolwiek pomocy lub dodatkowych wyjaśnień, nie wahaj się ze mną skontaktować. Będę starał się pomóc w każdy możliwy sposób. Dziękuję za Twoją wiadomość i powodzenia w nauce!
+body {
+    background-color: hsl(235, 21%, 15%);
+    display: flex;
+    justify-content: center;
+}
 
-1676921874.4767227
+h1, h2 {
+    color: #edf2f4;
+    font-family: 'Raleway', sans-serif;
+    padding: 0.20em 0.35em;
+    border-left: white 2px solid;
+    width: 100%;
+}
 
-TODO
 
-Dziękuję za Twoją odpowiedź. Cieszę się, że rozumiesz moją sytuację i doceniasz moje przeprosiny. Bardzo doceniam Twoją pomoc i wsparcie, które okazałeś mi w zrozumieniu tematu. Na pewno skorzystam z Twojej oferty i skontaktuję się z Tobą, jeśli będę potrzebował dalszej pomocy lub wyjaśnień. Jestem wdzięczny za Twoją życzliwość i gotowość do pomocy. Dziękuję również za życzenia powodzenia w nauce - na pewno bardzo mi się przydadzą!
+.chatDisplay{
+    /* TODO: fix so the wrapper manages the height*/
+    display: flex;
+    flex-direction: column; /* messages flow from bottom*/
+    align-items: baseline;
+    height: 80vh;
+    width: 100%;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    border: solid black 1px;
+    background-color: #2b2d42;
+    color: #edf2f4;
+    font-size: 20px;
+    font-family: ;
+}
 
-1676921904.973327
+.chatDisplay > * {
+    padding: 0.75em;
+    border-bottom: 1px solid #1e202e;
+}
 
-TODO
+.chatDisplay > *:hover {
+    background-color: #1e202e;
+}
 
-Cieszę się, że mogłem Ci pomóc i że jesteś zadowolony z mojej odpowiedzi. Zawsze jestem gotowy, aby pomóc i udzielić wsparcia, gdy tylko będziesz potrzebował. Jeśli będziesz miał jakieś pytania lub wątpliwości, nie wahaj się skontaktować ze mną - chętnie Ci pomogę. Trzymaj się i życzę Ci powodzenia w nauce!
+.chatInput{
 
-1676922474.5472753
+}
+
+.chatInputButton{
+
+}
+
+form {
+    display: flex;
+    position: sticky;
+    background-color: #2b2d42;
+    border-left: solid black 1px;
+    border-right: solid black 1px;
+}
+
+form input {
+    flex-grow: 5;
+    padding: 1.5em;
+    height: 50px;
+    border: 0px solid;
+    background-color: #2b2d42;
+    color: #edf2f4;
+}
+
+input:focus{
+    outline: none;
+}
+
+form button {
+    background-color: #1e202e;
+    color: #edf2f4;
+    flex-grow: 1;
+    border: 1px solid #2b2d42;
+}
+
+form button:focus {
+    background-color: #2b2d42;
+}
+
+.chatWrapper{
+    width: 70vw;
+    height: 300px;
+    
+}
+
+ @media (max-width: 700px) {
+
+    .chatDisplay{
+        height: 100vh;
+    }
+
+    .chatWrapper{
+        width: 100vw;
+        height: 300px;
+    }
+
+  } 
