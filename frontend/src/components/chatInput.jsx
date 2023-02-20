@@ -24,7 +24,7 @@ export default function ChatInput(){
 
 
     return(
-        <div>
+        <div className={"message"}>
             <form onSubmit={ event => {
                 event.preventDefault()
                 addMessage({
@@ -35,7 +35,7 @@ export default function ChatInput(){
                 })
 
             }}>
-                <input id={id} value={input} onInput={e => setInput(e.target.value)}/>
+                <input id={id} value={input} onInput={e => setInput(e.target.value)} className={"chat-input"}/>
                 <button className={styles.chatInputButton} type={"submit"}>{"Send"}</button>
             </form>
 

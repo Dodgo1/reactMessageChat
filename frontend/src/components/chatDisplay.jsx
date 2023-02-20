@@ -78,8 +78,8 @@ export default function ChatDisplay(){
     if (error) return "Error : " + error
 
     return(
-        <div >
-            <h1>{data.getChat.chatName }</h1>
+        <div className={"chat-title"}>
+            <h1 className={"chat-name"}>{data.getChat.chatName }</h1>
             <div className={styles.chatDisplay}>
                 {renderMessages(data.getChat.messages)}
             </div>
