@@ -27,7 +27,7 @@ h1, h2 {
 .chatDisplay{
     /* TODO: fix so the wrapper manages the height*/
     display: flex;
-    flex-direction: column; /* messages flow from bottom*/
+    flex-direction: column-reverse; /* messages flow from bottom*/
     align-items: baseline;
     height: 80vh;
     width: 100%;
