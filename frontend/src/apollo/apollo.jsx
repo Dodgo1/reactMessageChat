@@ -4,12 +4,13 @@ import {ApolloClient, HttpLink, InMemoryCache, split} from "@apollo/client";
 import {getMainDefinition} from "@apollo/client/utilities";
 
 const wsLink = new GraphQLWsLink(createClient({
-    url: STRAWAPI_URL.replace("http","ws"),
+    url: import.meta.env.VITE_STRAWAPI_URL.replace("http","ws"),
 }));
 
 const httpLink = new HttpLink({
-    uri: STRAWAPI_URL,
+    uri: import.meta.env.VITE_STRAWAPI_URL,
 });
+
 
 const splitLink = split(
     ({ query }) => {

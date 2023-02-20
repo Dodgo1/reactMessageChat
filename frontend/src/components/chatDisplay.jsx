@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {gql, useQuery } from "@apollo/client";
 import {useEffect, useState} from "react";
-import styles from './chatPage.module.css'
+import styles from '../css/chatPage.module.css'
 
 
 const GET_CHAT =gql`
@@ -34,25 +34,7 @@ export default function ChatDisplay(){
     const {loading,error,data,subscribeToMore} = useQuery(GET_CHAT,{variables:{chatHash:chat_hash}})
 
 
-    function getInitialState() {
-        return {
-            styles: {
-                top: 0,
-                left: 0
-            }
-        };
-    }
 
-    function componentDidMount() {
-        this.setState({
-            styles: {
-                // Note: computeTopWith and computeLeftWith are placeholders. You
-                // need to provide their implementation.
-                top: computeTopWith(this.refs.child),
-                left: computeLeftWith(this.refs.child)
-            }
-        })
-    }
 
     function renderMessages(data){
         let elems = []

@@ -7,7 +7,6 @@ import {
 import MainPage from "./routes/mainPage.jsx";
 import { ApolloProvider } from "@apollo/client";
 import ChatPage from "/src/routes/chatPage.jsx";
-
 import {client} from "./apollo/apollo.jsx";
 
 
