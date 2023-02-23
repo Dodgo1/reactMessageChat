@@ -42,9 +42,9 @@ export default function ChatDisplay(){
         data.forEach(message => {
             elems.push(
                 <div key={key}>
-                    <p>{message.author}</p>
+                    <p className={styles.author}>{message.author}</p>
                     <p>{message.message}</p>
-                    <p>{message.time}</p>
+                    <p className={styles.time}>{message.time}</p>
                 </div>
             )
             key ++
