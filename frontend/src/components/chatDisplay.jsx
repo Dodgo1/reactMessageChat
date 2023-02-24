@@ -40,12 +40,13 @@ export default function ChatDisplay(){
         let elems = []
         let key = 0
         data.forEach(message => {
+            const currentDate = new Date(message.time*1000) //multiplying by 1000 because 1 ms = 1/1000 in UNIX time
             elems.push(
                 <div key={key}>
                     <p className={styles.author}>{message.author}</p>
                     <p>{message.message}</p>
-                    <p className={styles.time}>{message.time}</p>
-                </div>
+                    <p className={styles.time}>{currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p> 
+                </div> //empty array in toLocaleTimeString sets the locale to default
             )
             key ++
         })
