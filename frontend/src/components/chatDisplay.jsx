@@ -29,6 +29,19 @@ const SUBSCRIBE_MESSAGES = gql`
 }
 `
 
+function is_day_old(date){
+    const dayAgo = new Date().getTime() - (24 * 60 * 60 * 1000)
+    return date < dayAgo
+}
+
+function format_date(date){
+    if (is_day_old(date)){
+        return date.toLocaleString('en-US')
+    }
+    //TODO: add 'yesterday' etc.
+    return  date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+}
+
 export default function ChatDisplay(){
     const chat_hash = useParams().chatHash
     const {loading,error,data,subscribeToMore} = useQuery(GET_CHAT,{variables:{chatHash:chat_hash}})
@@ -40,12 +53,12 @@ export default function ChatDisplay(){
         let elems = []
         let key = 0
         data.forEach(message => {
-            const currentDate = new Date(message.time*1000) //multiplying by 1000 because 1 ms = 1/1000 in UNIX time
+            let messageTime = new Date(message.time * 1000)
             elems.push(
                 <div key={key}>
                     <p className={styles.author}>{message.author}</p>
                     <p>{message.message}</p>
-                    <p className={styles.time}>{currentDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</p> 
+                    <p className={styles.time}>{format_date(messageTime)}</p>
                 </div> //empty array in toLocaleTimeString sets the locale to default
             )
             key ++
