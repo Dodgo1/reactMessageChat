@@ -3,6 +3,7 @@ import {gql, useQuery } from "@apollo/client";
 import {useEffect, useState} from "react";
 import styles from '../css/chatPage.module.css'
 
+//TODO: implement infinite scroll https://www.npmjs.com/package/react-infinite-scroll-component
 
 const GET_CHAT =gql`
     query($chatHash: String!){
