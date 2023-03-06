@@ -25,6 +25,7 @@ congrats your api is probably running
 
 frontend is in the `frontend` folder
 
+TO RUN DEV MODE : `uvicorn main:app --reload --port 8080`
 
 
   

@@ -3,6 +3,7 @@ import {gql, useQuery } from "@apollo/client";
 import {useEffect, useState} from "react";
 import styles from '../css/chatPage.module.css'
 
+//TODO: implement infinite scroll https://www.npmjs.com/package/react-infinite-scroll-component
 
 const GET_CHAT =gql`
     query($chatHash: String!){
@@ -29,6 +30,19 @@ const SUBSCRIBE_MESSAGES = gql`
 }
 `
 
+function is_day_old(date){
+    const dayAgo = new Date().getTime() - (24 * 60 * 60 * 1000)
+    return date < dayAgo
+}
+
+function format_date(date){
+    if (is_day_old(date)){
+        return date.toLocaleString('en-US')
+    }
+    //TODO: add 'yesterday' etc.
+    return  date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+}
+
 export default function ChatDisplay(){
     const chat_hash = useParams().chatHash
     const {loading,error,data,subscribeToMore} = useQuery(GET_CHAT,{variables:{chatHash:chat_hash}})
@@ -40,12 +54,13 @@ export default function ChatDisplay(){
         let elems = []
         let key = 0
         data.forEach(message => {
+            let messageTime = new Date(message.time * 1000)
             elems.push(
                 <div key={key}>
-                    <p>{message.author}</p>
+                    <p className={styles.author}>{message.author}</p>
                     <p>{message.message}</p>
-                    <p>{message.time}</p>
-                </div>
+                    <p className={styles.time}>{format_date(messageTime)}</p>
+                </div> //empty array in toLocaleTimeString sets the locale to default
             )
             key ++
         })

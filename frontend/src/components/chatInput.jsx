@@ -33,6 +33,7 @@ export default function ChatInput(){
                             message:input,
                             author:"TODO"}
                 })
+                setInput("")
 
             }}>
                 <input id={id} value={input} onInput={e => setInput(e.target.value)} className={"chat-input"}/>

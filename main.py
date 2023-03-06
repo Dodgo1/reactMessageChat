@@ -1,30 +1,34 @@
-import asyncio
 import hashlib
 import time
+from os import environ
 
+import motor.motor_asyncio as motor
+import pymongo
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from strawberry.fastapi import GraphQLRouter
-from tinydb import TinyDB
-from tinydb.queries import where
 
-from db_utils import add_message
+# TODO: move to motor completely
 from schemes import *
 
-# TODO: change to different db/ cloud?
-db = TinyDB('db.json', sort_keys=True, indent=4)
+load_dotenv()
+
+client = pymongo.MongoClient(environ.get("MONGODB_URI"))
+db = client.message_app
+chats_coll: pymongo.collection.Collection = db.chats
 
 
 @strawberry.type
 class Query:
     @strawberry.field
     def get_messages(self, chat_hash: str) -> typing.List[Message]:
-        message_list = db.search(where("hash") == chat_hash)[0]["messages"]
-        return [Message(**message) for message in message_list]
+        messages = chats_coll.find_one({"hash": chat_hash})["messages"]
+        return [Message(**message) for message in messages]
 
     @strawberry.field
     def get_chat(self, chat_hash: str) -> Chat:
-        chat_in_db = db.search(where("hash") == chat_hash)[0]
+        chat_in_db = chats_coll.find_one({"hash": chat_hash})
         return Chat(
             chat_name=chat_in_db['chat_name'],
             author=chat_in_db['author'],
@@ -43,7 +47,7 @@ class Mutation:
             hash=hashlib.md5(bytes(chat_name + author + str(time.time()), "utf-8")).hexdigest(),
             messages=[],
         )
-        db.insert(new_chat.__dict__)
+        chats_coll.insert_one(new_chat.__dict__)
         return new_chat
 
     @strawberry.field
@@ -53,36 +57,26 @@ class Mutation:
             message=message,
             time=time.time()
         )
-        db.update(add_message("messages", new_msg.__dict__), where('hash') == chat_hash)
+        chats_coll.update_one({"hash": chat_hash}, {"$push": {"messages": new_msg.__dict__}})
         return new_msg
-
-    # @strawberry.field
-    # def create_user(self, name: str, password: str) -> User:
-    #     user_table = db.table("users")
-    #     creation_time = time.time()
-    #     new_user = User(
-    #         username=name,
-    #         password=password,  # TODO: hash pswd
-    #         creation_time=creation_time,
-    #         key=hashlib.md5(bytes(name + password + str(creation_time), "utf-8")).hexdigest()
-    #     )
-    #     user_table.insert(new_user.__dict__)
-    #     return new_user
 
 
 @strawberry.type
 class Subscription:
     @strawberry.subscription
     async def subscribe_messages(self, chat_hash: str) -> typing.AsyncGenerator[Message, None]:
-        base_time = time.time()
-        while True:
-            # todo: change DB or store in tables not in a list for less computation and simplicity
-            new_chat = db.get(where("messages").any(where("time") > base_time))
-            if new_chat:
-                new_message = next(filter(lambda message: message["time"] > base_time, new_chat["messages"]))
-                base_time = time.time()
+        client = motor.AsyncIOMotorClient(environ.get("MONGODB_URI"))
+        coll = client.message_app.chats
+        async with coll.watch(
+
+        ) as stream:
+            async for change in stream:
+                if change['operationType'] != 'update':
+                    continue
+                change_document = change['updateDescription']['updatedFields']
+                new_message = next(iter(change_document.values()))
+                # get first field of the document --> `messages.<int>`
                 yield Message(**new_message)
-            await asyncio.sleep(1)
 
 
 schema = strawberry.Schema(Query, Mutation, Subscription)
